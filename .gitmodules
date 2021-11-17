@@ -1,0 +1,12 @@
+[submodule "external/SDL"]
+	path = external/SDL
+	url = git@github.com:libsdl-org/SDL.git
+[submodule "external/glm"]
+	path = external/glm
+	url = git@github.com:g-truc/glm.git
+[submodule "external/emsdk"]
+	path = external/emsdk
+	url = git@github.com:emscripten-core/emsdk.git
+[submodule "external/stb"]
+	path = external/stb
+	url = git@github.com:nothings/stb.git
