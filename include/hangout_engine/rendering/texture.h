@@ -26,6 +26,6 @@ namespace HE {
 
         virtual void Bind() = 0;
         virtual void BindSamplerSettings(const SamplerSettings& settings) = 0;
-        virtual void UploadData(const TextureData& data) = 0;
+        virtual void UploadData(std::shared_ptr<TextureData> data) = 0;
     };
 }

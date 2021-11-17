@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 #include <cstdlib>
+#include <input/sdl_input.h>
+
 #if defined(__EMSCRIPTEN__)
 #include <emscripten.h>
 #else
@@ -29,5 +31,6 @@ namespace HE {
         SDL_Window* _window = nullptr;
         SDL_GLContext _context;
 
+        SDLInput _input {};
     };
 }

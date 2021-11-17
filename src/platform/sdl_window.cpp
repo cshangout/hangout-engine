@@ -6,14 +6,23 @@
 
 #include <iostream>
 #include <cstddef>
+#include <hangout_engine/service_locator.h>
 
 namespace HE {
     bool SDLWindow::Update() {
         SDL_Event event;
-        SDL_PollEvent(&event);
+        while ((SDL_PollEvent(&event)) != 0) {
+            // Do stuff with events
+            if (event.type == SDL_QUIT) return true;
+        }
 
-        // Do stuff with events
-        if (event.type == SDL_QUIT) return true;
+        auto keyState = SDL_GetKeyboardState(NULL);
+        _input.UpdateKeyboardState(keyState);
+
+        int mouseX, mouseY;
+
+        auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
+        _input.UpdateMouseState(buttons, mouseX, mouseY);
 
         return false;
     }
@@ -59,6 +68,20 @@ namespace HE {
 #endif
         _context = SDL_GL_CreateContext(_window);
         MakeContextCurrent();
+
+        auto* inputManager = ServiceLocator::GetInputManager();
+
+        inputManager->RegisterDevice(InputDevice {
+            .Type = InputDeviceType::Keyboard,
+            .Index = 0,
+            .StateFunc = std::bind(&SDLInput::GetKeyboardState, &_input, std::placeholders::_1)
+        });
+
+        inputManager->RegisterDevice(InputDevice {
+            .Type = InputDeviceType::Mouse,
+            .Index = 0,
+            .StateFunc = std::bind(&SDLInput::GetMouseState, &_input, std::placeholders::_1)
+        });
     }
 
     SDLWindow::~SDLWindow() {

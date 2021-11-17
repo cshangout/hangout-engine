@@ -38,6 +38,10 @@ namespace HE {
                 return;
             }
 
+            if (ServiceLocator::GetInputManager()) {
+                ServiceLocator::GetInputManager()->processInput();
+            }
+
             _instance->PhysicsUpdate(0.0f);
             _instance->Update(0.0f);
 
@@ -47,6 +51,9 @@ namespace HE {
     }
 
     void Game::initializeServices() {
+        // Provide input manager
+        ServiceLocator::Provide(new InputManager());
+
         ServiceLocator::Provide(new SDLWindow());
         ServiceLocator::GetWindow()->OpenWindow({
             .title = _title,

@@ -31,11 +31,11 @@ namespace HE {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFilteringToOpenGL(settings.magFilter));
     }
 
-    void OpenGLTexture::UploadData(const TextureData& data) {
-        auto [width, height] = data.GetSize();
+    void OpenGLTexture::UploadData(std::shared_ptr<TextureData> data) {
+        auto [width, height] = data->GetSize();
 
-        glTexImage2D(GL_TEXTURE_2D, 0, TextureChannelNumberToOpenGL(data.GetChannels()), static_cast<GLsizei>(width), static_cast<GLsizei>(height),
-                     0, TextureChannelNumberToOpenGL(data.GetChannels()), GL_UNSIGNED_BYTE, data.GetData());
+        glTexImage2D(GL_TEXTURE_2D, 0, TextureChannelNumberToOpenGL(data->GetChannels()), static_cast<GLsizei>(width), static_cast<GLsizei>(height),
+                     0, TextureChannelNumberToOpenGL(data->GetChannels()), GL_UNSIGNED_BYTE, data->GetData());
 
         glGenerateMipmap(GL_TEXTURE_2D);
     }

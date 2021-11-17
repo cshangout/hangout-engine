@@ -12,7 +12,7 @@ namespace HE {
 
         void Bind() override;
         void BindSamplerSettings(const SamplerSettings& settings) override;
-        void UploadData(const TextureData& data) override;
+        void UploadData(std::shared_ptr<TextureData> data) override;
 
     private:
         uint32_t _handle;
