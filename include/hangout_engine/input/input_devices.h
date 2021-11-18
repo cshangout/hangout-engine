@@ -4,12 +4,6 @@
 #include "input_key.h"
 
 namespace HE {
-    enum class InputDeviceType {
-        Keyboard,
-        Mouse,
-        Gamepad
-    };
-
     struct InputDeviceState {
         float value { 0.f };
     };
@@ -17,9 +11,9 @@ namespace HE {
     using InputDeviceStateCallbackFunc = std::function<std::unordered_map<InputKey, InputDeviceState>(int)>;
 
     struct InputDevice {
-        InputDeviceType Type;
-        int Index;
-        std::unordered_map<InputKey, InputDeviceState> CurrentState;
-        InputDeviceStateCallbackFunc StateFunc;
+        InputSource Type { InputSource::Unknown };
+        int Index { -1 };
+        std::unordered_map<InputKey, InputDeviceState> CurrentState {};
+        InputDeviceStateCallbackFunc StateFunc = nullptr;
     };
 }
