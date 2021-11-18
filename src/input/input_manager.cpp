@@ -2,13 +2,9 @@
 #include <iostream>
 
 namespace HE {
-    InputManager::InputManager() {
-        std::cout << "RAWR!" << std::endl;
-    }
+    InputManager::InputManager() {}
 
-    InputManager::~InputManager() {
-        _active = false;
-    }
+    InputManager::~InputManager() {}
 
     void InputManager::RegisterActionCallback(const std::string &actionName, const InputManager::ActionCallback& callback) {
         _actionCallbacks[actionName].emplace_back(callback);
@@ -88,7 +84,7 @@ namespace HE {
         _devices.emplace_back(device);
     }
 
-    void InputManager::RemoveDevice(InputDeviceType type, int inputIndex) {
+    void InputManager::RemoveDevice(InputSource type, int inputIndex) {
         erase_if(_devices, [type, inputIndex](const InputDevice& device) {
             return device.Type == type && device.Index == inputIndex;
         });

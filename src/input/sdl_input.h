@@ -7,8 +7,8 @@
 namespace HE {
     class SDLInput {
     public:
-        std::unordered_map<InputKey, InputDeviceState> GetKeyboardState(int index) { return _keyboardState; }
-        std::unordered_map<InputKey, InputDeviceState> GetMouseState(int index) { return _mouseState; }
+        std::unordered_map<InputKey, InputDeviceState> GetKeyboardState(int) { return _keyboardState; }
+        std::unordered_map<InputKey, InputDeviceState> GetMouseState(int) { return _mouseState; }
         std::unordered_map<InputKey, InputDeviceState> GetGamepadState(int index) { return _gamepadStates[index]; }
 
         void UpdateKeyboardState(const Uint8* keyboardState);

@@ -5,7 +5,6 @@
 #include "sdl_window.h"
 
 #include <iostream>
-#include <cstddef>
 #include <hangout_engine/service_locator.h>
 
 namespace HE {
@@ -16,7 +15,7 @@ namespace HE {
             if (event.type == SDL_QUIT) return true;
         }
 
-        auto keyState = SDL_GetKeyboardState(NULL);
+        auto keyState = SDL_GetKeyboardState(nullptr);
         _input.UpdateKeyboardState(keyState);
 
         int mouseX, mouseY;
@@ -56,7 +55,7 @@ namespace HE {
         // This should be good enough for gamejam however.
         _window = SDL_CreateWindow(data.title.c_str(),
                                    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                   width, height,
+                                   static_cast<int>(width), static_cast<int>(height),
                                    SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 
 
@@ -72,13 +71,13 @@ namespace HE {
         auto* inputManager = ServiceLocator::GetInputManager();
 
         inputManager->RegisterDevice(InputDevice {
-            .Type = InputDeviceType::Keyboard,
+            .Type = InputSource::Keyboard,
             .Index = 0,
             .StateFunc = std::bind(&SDLInput::GetKeyboardState, &_input, std::placeholders::_1)
         });
 
         inputManager->RegisterDevice(InputDevice {
-            .Type = InputDeviceType::Mouse,
+            .Type = InputSource::Mouse,
             .Index = 0,
             .StateFunc = std::bind(&SDLInput::GetMouseState, &_input, std::placeholders::_1)
         });

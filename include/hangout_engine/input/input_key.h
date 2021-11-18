@@ -29,7 +29,7 @@ namespace HE {
     };
 
     struct InputAction {
-        std::string ActionName {""};
+        std::string ActionName;
         float Scale {1.f};
     };
 

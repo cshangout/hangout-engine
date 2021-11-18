@@ -38,14 +38,13 @@ namespace HE {
         void UnmapInputFromAction(InputKey key, const std::string& actionName);
 
         void RegisterDevice(const InputDevice& device);
-        void RemoveDevice(InputDeviceType source, int inputIndex);
+        void RemoveDevice(InputSource source, int inputIndex);
 
     private:
         void processInput();
         std::vector<ActionEvent> generateActionEvent(int deviceIndex, InputKey key, float newVal);
         void propagateActionEvent(const ActionEvent& event);
     private:
-        bool _active { true };
         std::unordered_map<InputKey, std::vector<InputAction>> _inputActionMapping;
         std::unordered_map<std::string, std::vector<ActionCallback>> _actionCallbacks;
 
