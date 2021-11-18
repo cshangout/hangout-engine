@@ -6,13 +6,41 @@
 
 #include <iostream>
 #include <hangout_engine/service_locator.h>
+#include <rendering/opengl/open_gl_graphics.h>
 
 namespace HE {
     bool SDLWindow::Update() {
+        auto* inputManager = ServiceLocator::GetInputManager();
+
         SDL_Event event;
         while ((SDL_PollEvent(&event)) != 0) {
             // Do stuff with events
             if (event.type == SDL_QUIT) return true;
+
+            if (event.type == SDL_CONTROLLERDEVICEADDED) {
+                std::cout << "Controller connected" << std::endl;
+                if (inputManager) {
+                    SDL_GameController* pad = SDL_GameControllerOpen(event.cdevice.which);
+                    _input.AddController(pad);
+
+                    auto id = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(pad));
+                    inputManager->RegisterDevice(InputDevice {
+                            .Type = InputSource::Gamepad,
+                            .Index = static_cast<int>(id),
+                            .StateFunc = std::bind(&SDLInput::GetGamepadState, &_input, std::placeholders::_1)
+                    });
+                }
+            }
+
+            if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
+                std::cout << "Controller disconnected" << std::endl;
+                auto id = event.cdevice.which;
+                _input.RemoveController(id);
+
+                if (inputManager) {
+                    inputManager->RemoveDevice(InputSource::Gamepad, static_cast<int>(id));
+                }
+            }
         }
 
         auto keyState = SDL_GetKeyboardState(nullptr);
@@ -44,7 +72,7 @@ namespace HE {
       _managed = true;
 #endif
 
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
+        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
             throw std::runtime_error("Failed to initialize SDL!");
         }
 
@@ -61,10 +89,11 @@ namespace HE {
 
 
 #if !__EMSCRIPTEN__
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 #endif
+
         _context = SDL_GL_CreateContext(_window);
         MakeContextCurrent();
 

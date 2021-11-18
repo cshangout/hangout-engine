@@ -19,8 +19,13 @@ namespace HE {
         }
 
 #ifdef GLAD
-        gladLoadGLES2Loader(SDL_GL_GetProcAddress);
+        gladLoadGLLoader(SDL_GL_GetProcAddress);
 #endif
+        std::cout << "GL_VERSION=" << glGetString(GL_VERSION) << std::endl;
+        std::cout << "GRAPHICS CARD=" << glGetString(GL_RENDERER) << std::endl;
+        std::cout << "VENDOR=" << glGetString(GL_VENDOR) << std::endl;
+        std::cout << "GL_SHADING_LANGUAGE_VERSION=" << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
         _rendererAPI = std::make_unique<OpenGLRendererAPI>();
     }
 
