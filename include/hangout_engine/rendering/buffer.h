@@ -11,7 +11,7 @@ namespace HE {
     static uint32_t ShaderDataTypeSize(ShaderDataType type) {
         switch (type) {
             case ShaderDataType::None:
-                assert(true && "None ShaderDataType Requested");
+                assert(false && "None ShaderDataType Requested");
             case ShaderDataType::Float:
                 return 4;
             case ShaderDataType::Float2:
@@ -35,7 +35,7 @@ namespace HE {
             case ShaderDataType::Bool:
                 return 1;
         }
-        assert(true && "Invalid ShaderDataType requested");
+        assert(false && "Invalid ShaderDataType requested");
     }
 
     struct BufferElement {
@@ -75,9 +75,9 @@ namespace HE {
                 case ShaderDataType::Bool:
                     return 1;
                 case ShaderDataType::None:
-                    assert(true && "None ShaderDataType Requested");
+                    assert(false && "None ShaderDataType Requested");
             }
-            assert(true && "Invalid ShaderDataType Requested");
+            assert(false && "Invalid ShaderDataType Requested");
             return -1;
         }
     };

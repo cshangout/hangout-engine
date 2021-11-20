@@ -1,47 +1,81 @@
 #include <hangout_engine/rendering/camera.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <hangout_engine/service_locator.h>
 
 namespace HE {
-    Camera::Camera(glm::mat4 projectionMatrix) : _projectionMatrix(projectionMatrix){
-        Camera::recalculateViewMatrix();
+    Camera::Camera(
+            glm::vec3 position,
+            glm::vec3 up,
+            float yaw,
+            float pitch,
+            float near,
+            float far,
+            bool isPerspective,
+            float fieldOfView)
+        : _position(position), _up(up), _yaw(yaw), _pitch(pitch), _near(near), _far(far), _isPerspective(isPerspective), _fieldOfView(fieldOfView), _worldUp(up){
+
+        Camera::recalculateCameraVectors();
     }
 
-    OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top)
-        : Camera(glm::ortho(left, right, bottom, top, -1.f, 1.f)){
-        OrthographicCamera::recalculateViewMatrix();
+    void Camera::recalculateCameraVectors() {
+        glm::vec3 front;
+        front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+        front.y = sin(glm::radians(_pitch));
+        front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+        _front = glm::normalize(front);
+
+        // also re-calculate the Right and Up vector
+        _right = glm::normalize(glm::cross(_front, _worldUp));
+        _up    = glm::normalize(glm::cross(_right, _front));
     }
 
-    OrthographicCamera::OrthographicCamera(float aspect)
-            : Camera(glm::ortho(-aspect, aspect, -1.f, 1.f, -1.f, 1.f)) {
-        OrthographicCamera::recalculateViewMatrix();
+    void Camera::Translate(Camera::MoveDirection direction, float amount) {
+        switch (direction) {
+            case MoveDirection::Forward:
+                _position += _front * amount;
+                break;
+            case MoveDirection::Backward:
+                _position -= _front * amount;
+                break;
+            case MoveDirection::Left:
+                _position -= _right * amount;
+                break;
+            case MoveDirection::Right:
+                _position += _right * amount;
+                break;
+            case MoveDirection::Up:
+                _position += _up * amount;
+                break;
+            case MoveDirection::Down:
+                _position -= _up * amount;
+                break;
+            default:
+                break;
+        }
+        recalculateCameraVectors();
     }
 
-    void OrthographicCamera::recalculateViewMatrix() {
-        glm::mat4 translation = glm::translate(glm::mat4{1.f}, _position);
-        glm::mat4 rotation = glm::rotate(glm::mat4{1.f}, glm::radians(_rotation), glm::vec3(0, 0, 1.f));
+    glm::mat4 Camera::GetProjectionMatrix() const {
+        auto aspect = HE::ServiceLocator::GetWindow()->GetAspectRatio();
 
-        glm::mat4 transform = translation * rotation;
-
-        _viewMatrix = glm::inverse(transform);
-        Camera::recalculateViewMatrix();
+        return _isPerspective ?
+            glm::perspective(glm::radians(_fieldOfView), aspect, _near, _far) :
+            glm::ortho(-aspect, aspect, -1.f, 1.f, _near, _far);
     }
 
-    PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far)
-        : Camera(glm::perspective(glm::radians(fov), aspect, near, far)){
-
+    const glm::mat4 &Camera::GetViewMatrix() const {
+        return glm::lookAt(_position, _position + _front, _up);
     }
 
-    void PerspectiveCamera::recalculateViewMatrix() {
-        Camera::recalculateViewMatrix();
+    void Camera::RotateBy(float xAmount, float yAmount, bool constrainPitch) {
+        _yaw += xAmount;
+        _pitch += yAmount;
+
+        if (constrainPitch) {
+            _pitch = std::clamp(_pitch, -89.f, 89.f);
+        }
+
+        recalculateCameraVectors();
     }
 
-    void PerspectiveCamera::LookAt(const glm::vec3& lookAt) {
-        _viewMatrix = glm::lookAt(
-            _position,
-            lookAt,
-            glm::vec3(0.f, 1.f, 0.f)
-        );
-
-        recalculateViewMatrix();
-    }
 }

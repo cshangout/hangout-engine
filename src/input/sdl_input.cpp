@@ -27,6 +27,12 @@ namespace HE {
                 return InputKey::KEY_D;
             case SDL_SCANCODE_E:
                 return InputKey::KEY_E;
+            case SDL_SCANCODE_Q:
+                return InputKey::KEY_Q;
+            case SDL_SCANCODE_S:
+                return InputKey::KEY_S;
+            case SDL_SCANCODE_W:
+                return InputKey::KEY_W;
             default:
                 return InputKey::UNKNOWN;
         }

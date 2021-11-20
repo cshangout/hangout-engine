@@ -16,14 +16,70 @@ namespace HE {
         });
     }
 
+
+    float InputManager::GetActionValue(const std::string& actionName) {
+        // TODO: This will need to be able to specify device indexes or sources or something later?
+        auto& keys = _inputActionMapping[actionName];
+
+        if (keys.empty()) {
+            return 0.f;
+        }
+
+        // Get the largest value and return it
+        float value = 0.f;
+        InputKey theKey = InputKey::UNKNOWN;
+
+        for (auto& key : keys) {
+            // get the device
+            auto device = GetInputSourceFromKey(key);
+
+            // search for devices with that value
+            for (auto& iDevice : _devices) {
+                if (iDevice.Type == device) {
+                    // check value of key
+                    auto state = iDevice.StateFunc(iDevice.Index);
+                    auto newVal = state[key].value;
+
+                    if (std::abs(newVal) >= std::abs(value)) {
+                        value = newVal;
+                        theKey = key;
+                    }
+                }
+            }
+        }
+
+
+        if (theKey == InputKey::UNKNOWN) {
+
+            return 0.f;
+        }
+
+        // get the weight for that key
+        float weight = 1.f;
+
+        for (auto& action : _inputKeyMapping[theKey]) {
+            if (action.ActionName == actionName) {
+                weight = action.Scale;
+                break;
+            }
+        }
+
+        return value * weight;
+    }
+
     void InputManager::MapInputToAction(InputKey key, const InputAction& action) {
         // TODO: Check for duplicates
-        _inputActionMapping[key].emplace_back(action);
+        _inputKeyMapping[key].emplace_back(action);
+        _inputActionMapping[action.ActionName].emplace_back(key);
     }
 
     void InputManager::UnmapInputFromAction(InputKey key, const std::string &actionName) {
-        erase_if(_inputActionMapping[key], [key, actionName](const InputAction& action) {
+        erase_if(_inputKeyMapping[key], [key, actionName](const InputAction& action) {
            return action.ActionName == actionName;
+        });
+
+        erase_if(_inputActionMapping[actionName], [key](const InputKey& inputKey) {
+            return key == inputKey;
         });
     }
 
@@ -39,7 +95,8 @@ namespace HE {
                 float newVal = keyState.second.value;
                 float oldVal = device.CurrentState[key].value;
 
-                if (oldVal != newVal) {
+
+                if (newVal != oldVal) {
                     auto generatedEvents = generateActionEvent(device.Index, keyState.first, keyState.second.value);
                     events.insert(events.end(), generatedEvents.begin(), generatedEvents.end());
 
@@ -57,7 +114,7 @@ namespace HE {
     std::vector<InputManager::ActionEvent> InputManager::generateActionEvent(int deviceIndex, InputKey key, float newVal) {
         std::vector<ActionEvent> events {};
 
-        auto& actions = _inputActionMapping[key];
+        auto& actions = _inputKeyMapping[key];
         InputSource source = GetInputSourceFromKey(key);
 
         for (auto& action : actions) {
@@ -89,4 +146,5 @@ namespace HE {
             return device.Type == type && device.Index == inputIndex;
         });
     }
+
 }

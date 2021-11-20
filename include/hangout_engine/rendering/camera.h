@@ -5,55 +5,62 @@
 namespace HE {
     class Camera {
     public:
-        explicit Camera(glm::mat4 projectionMatrix);
+        explicit Camera(
+                glm::vec3 position = glm::vec3(0.0f, 0.0f, 5.0f),
+                glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
+                float yaw = -90.f,
+                float pitch = 0.f,
+                float near = 0.01f,
+                float far = 1000.f,
+                bool isPerspective = true,
+                float fieldOfView = 45.f);
 
         [[nodiscard]] const glm::vec3& GetPosition() const { return _position; }
 
         void SetPosition(const glm::vec3& position) {
             _position = position;
-            recalculateViewMatrix();
+            recalculateCameraVectors();
         }
 
+        void SetIsPerspective(bool isPerspective) { _isPerspective = isPerspective;
+            recalculateCameraVectors(); }
+        [[nodiscard]] bool IsPerspective() const { return _isPerspective; }
 
-        [[nodiscard]] const glm::mat4& GetProjectionMatrix() const { return _projectionMatrix; }
-        [[nodiscard]] const glm::mat4& GetViewMatrix() const { return _viewMatrix; }
-        [[nodiscard]] const glm::mat4& GetViewProjectionMatrix() const { return _viewProjectionMatrix; }
+        // TODO: These transform operations should be moved into a generic Transform class later
+        enum class MoveDirection {
+            Forward,
+            Backward,
+            Left,
+            Right,
+            Up,
+            Down
+        };
 
-    protected:
-        virtual void recalculateViewMatrix() { _viewProjectionMatrix = _projectionMatrix * _viewMatrix; };
+        void Translate(MoveDirection direction, float amount);
+        void RotateBy(float xAmount, float yAmount, bool constrainPitch = true);
 
-    protected:
-        glm::mat4 _projectionMatrix { 1.f };
-        glm::mat4 _viewMatrix { 1.f };
-        glm::mat4 _viewProjectionMatrix { 1.f };
+        [[nodiscard]] glm::mat4 GetProjectionMatrix() const;
+        [[nodiscard]] const glm::mat4& GetViewMatrix() const;
 
-        glm::vec3 _position {0, 0, -1};
-
-    };
-
-    class OrthographicCamera : public Camera {
-    public:
-        OrthographicCamera(float left, float right, float bottom, float top);
-        explicit OrthographicCamera(float aspect);
-
-        [[nodiscard]] float GetRotation() const  { return _rotation; }
-
-        void SetRotation(float rotation) {
-            _rotation = rotation;
-            recalculateViewMatrix();
-        }
-    protected:
-        void recalculateViewMatrix() override;
     private:
-        float _rotation = 0.0f;
-    };
+        void recalculateCameraVectors();
 
-    class PerspectiveCamera : public Camera {
-    public:
-        PerspectiveCamera(float fov, float aspect, float near, float far);
+    private:
+        glm::mat4 _viewMatrix { 1.f };
 
-        void LookAt(const glm::vec3& lookAt);
-    protected:
-        void recalculateViewMatrix() override;
+        glm::vec3 _position;
+        glm::vec3 _up;
+        glm::vec3 _right;
+        float _yaw;
+        float _pitch;
+        float _zoom;
+        glm::vec3 _front;
+
+        float _fieldOfView { 45.f };
+        float _near { 0.001f };
+        float _far { 1000.f };
+        bool _isPerspective { false };
+        glm::vec3 _worldUp;
+
     };
 }

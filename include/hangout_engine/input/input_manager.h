@@ -16,6 +16,7 @@ namespace HE {
 
         struct ActionCallback {
             std::string Ref;
+            bool isAxis;
             ActionCallbackFunc Func;
         };
 
@@ -35,7 +36,9 @@ namespace HE {
         void RemoveActionCallback(const std::string& actionName, const std::string& callbackRef);
 
         void MapInputToAction(InputKey key, const InputAction& action);
-        void UnmapInputFromAction(InputKey key, const std::string& actionName);
+        void UnmapInputFromAction(InputKey inputKey, const std::string& actionName);
+
+        float GetActionValue(const std::string& actionName);
 
         void RegisterDevice(const InputDevice& device);
         void RemoveDevice(InputSource source, int inputIndex);
@@ -45,7 +48,10 @@ namespace HE {
         std::vector<ActionEvent> generateActionEvent(int deviceIndex, InputKey key, float newVal);
         void propagateActionEvent(const ActionEvent& event);
     private:
-        std::unordered_map<InputKey, std::vector<InputAction>> _inputActionMapping;
+
+        std::unordered_map<InputKey, std::vector<InputAction>> _inputKeyMapping;
+
+        std::unordered_map<std::string, std::vector<InputKey>> _inputActionMapping;
         std::unordered_map<std::string, std::vector<ActionCallback>> _actionCallbacks;
 
         std::vector<InputDevice> _devices;

@@ -9,6 +9,9 @@ namespace HE {
         KEY_C,
         KEY_D,
         KEY_E,
+        KEY_Q,
+        KEY_S,
+        KEY_W,
 
         CONTROLLER_BUTTON_A,
         CONTROLLER_BUTTON_B,
@@ -66,6 +69,9 @@ namespace HE {
             case InputKey::KEY_C:
             case InputKey::KEY_D:
             case InputKey::KEY_E:
+            case InputKey::KEY_Q:
+            case InputKey::KEY_S:
+            case InputKey::KEY_W:
                 return InputSource::Keyboard;
             case InputKey::MOUSE_MOVE_X:
             case InputKey::MOUSE_MOVE_Y:
@@ -103,7 +109,7 @@ namespace HE {
             case InputKey::CONTROLLER_AXIS_MAX:
                 return InputSource::Gamepad;
             default:
-                assert(true && "Invalid Input Source!");
+                assert(false && "Invalid Input Source!");
                 return InputSource::Unknown;
         }
     }
