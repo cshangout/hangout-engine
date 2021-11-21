@@ -1,6 +1,8 @@
 #include <hangout_engine/platform/game.h>
 #include <hangout_engine/service_locator.h>
 #include <rendering/opengl/open_gl_renderer.h>
+#include <chrono>
+
 #include "sdl_window.h"
 namespace HE {
     Game* Game::_instance = nullptr;
@@ -32,6 +34,11 @@ namespace HE {
 
     void Game::gameLoop() {
         if (_instance != nullptr) {
+            auto start = SDL_GetPerformanceCounter();
+
+            auto deltaTime = static_cast<float>(start - _instance->_lastFrame) /
+                    static_cast<float>(SDL_GetPerformanceFrequency());
+
             // If the X button was clicked, exit
             if (ServiceLocator::GetWindow()->Update()) {
                 _instance->_running = false;
@@ -42,11 +49,17 @@ namespace HE {
                 ServiceLocator::GetInputManager()->processInput();
             }
 
-            _instance->PhysicsUpdate(0.0f);
-            _instance->Update(0.0f);
+            _instance->PhysicsUpdate(deltaTime);
+            _instance->Update(deltaTime);
 
             _instance->Render();
 
+            _instance->_lastFrame = SDL_GetPerformanceCounter();
+
+            float elapsed = static_cast<float>(_instance->_lastFrame - start) /
+                    static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0f;
+            auto delayTime = std::clamp((1000.f / _instance->_desiredFPS) - elapsed, 0.f, 9999.f);
+            SDL_Delay(std::floor(delayTime));
         }
     }
 

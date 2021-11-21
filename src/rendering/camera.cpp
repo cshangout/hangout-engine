@@ -52,7 +52,6 @@ namespace HE {
             default:
                 break;
         }
-        recalculateCameraVectors();
     }
 
     glm::mat4 Camera::GetProjectionMatrix() const {

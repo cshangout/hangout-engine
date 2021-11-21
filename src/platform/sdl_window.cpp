@@ -95,6 +95,7 @@ namespace HE {
 #endif
 
         _context = SDL_GL_CreateContext(_window);
+        SDL_GL_SetSwapInterval(0);
         MakeContextCurrent();
 
         auto* inputManager = ServiceLocator::GetInputManager();

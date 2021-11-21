@@ -29,9 +29,14 @@ namespace HE {
 
     protected:
         glm::vec4 _clearColor { 0.1f, 0.2f, 0.3f, 1.f };
+        float _desiredFPS = 120.f;
+
     private:
+
         std::string _title;
         bool _running;
+
+        uint64_t _lastFrame;
 
         static Game* _instance;
     };
