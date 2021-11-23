@@ -8,7 +8,7 @@ namespace HE {
 
     struct Vertex {
         glm::vec3 position;
-        glm::vec4 color;
+        glm::vec4 color {1.f, 1.f, 1.f, 1.f};
         glm::vec2 uv;
     };
 
