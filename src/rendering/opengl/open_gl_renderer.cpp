@@ -26,6 +26,11 @@ namespace HE {
         std::cout << "VENDOR=" << glGetString(GL_VENDOR) << std::endl;
         std::cout << "GL_SHADING_LANGUAGE_VERSION=" << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+        glFrontFace(GL_CW);
+        glEnable(GL_DEPTH_TEST);
+
         _rendererAPI = std::make_unique<OpenGLRendererAPI>();
     }
 
