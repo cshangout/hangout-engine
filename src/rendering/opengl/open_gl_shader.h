@@ -14,6 +14,8 @@ namespace HE {
         void Float(const std::string &name, float value) const override;
         void UniformMat4(const std::string& name, const glm::mat4& matrix) const override;
 
+        uint32_t GetHandle() override { return _program; }
+
     private:
         [[nodiscard]] GLint getShaderLocation(const std::string& name) const;
         uint32_t _program = 0;

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <glm/glm.hpp>
+#include "scene.h"
 
 namespace HE {
     class Game {
@@ -13,15 +14,16 @@ namespace HE {
 
         void Run();
 
+        Scene& GetScene() { return _scene; }
     protected:
         virtual void Init() {};
         virtual void PhysicsUpdate(float deltaTime) {};
         virtual void Update(float deltaTime) {};
-        virtual void Render() {};
 
     private:
         void initializeServices();
         void shutdownServices();
+        void render();
 
     public:
         // For public variables (probably none)
@@ -32,6 +34,7 @@ namespace HE {
         float _desiredFPS = 120.f;
 
     private:
+        Scene _scene;
 
         std::string _title;
         bool _running;

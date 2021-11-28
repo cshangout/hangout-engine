@@ -23,6 +23,11 @@ namespace HE {
         static inline void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
             getAPI()->DrawIndexed(vertexArray);
         }
+
+        static inline void DrawMesh(const MeshComponent& mesh, const TransformComponent& transform) {
+            getAPI()->DrawMesh(mesh, transform);
+        }
+
     private:
         static RendererAPI* getAPI() {
             return ServiceLocator::GetRenderer()->GetRendererAPI();

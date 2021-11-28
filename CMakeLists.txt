@@ -9,6 +9,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/${CMAKE_SYSTEM_NAME}
 add_subdirectory(external/SDL)
 add_subdirectory(external/glm)
 add_subdirectory(external/glad)
+add_subdirectory(external/entt)
 
 find_package(OpenGL REQUIRED)
 
@@ -27,7 +28,7 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         glm
-        glad
+        EnTT
 
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -35,14 +36,16 @@ target_include_directories(${PROJECT_NAME}
         SDL2-static
         ${OPENGL_LIBRARY}
         external/stb
+        glad
 )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         glm
-        glad
+        EnTT
 
     PRIVATE
+        glad
         SDL2main
         SDL2-static
         ${OPENGL_LIBRARY}

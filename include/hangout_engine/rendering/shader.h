@@ -58,6 +58,7 @@ namespace HE {
             Compile(vertexCode, fragmentCode);
         }
 
+        virtual const std::vector<TextureSamplerBinding>& GetTextureSamplers() { return _samplers; }
         virtual void SetTextureSamplers(std::initializer_list<TextureSamplerBinding>&& elements) {
             _samplers = elements;
         }
@@ -67,6 +68,8 @@ namespace HE {
         virtual void Int(const std::string& name, int value) const = 0;
         virtual void Float(const std::string& name, float value) const = 0;
         virtual void UniformMat4(const std::string&, const glm::mat4&) const = 0;
+
+        virtual uint32_t GetHandle() = 0;
     protected:
         std::vector<TextureSamplerBinding> _samplers {};
 

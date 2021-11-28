@@ -62,7 +62,7 @@ namespace HE {
             glm::ortho(-aspect, aspect, -1.f, 1.f, _near, _far);
     }
 
-    const glm::mat4 &Camera::GetViewMatrix() const {
+    const glm::mat4 Camera::GetViewMatrix() const {
         return glm::lookAt(_position, _position + _front, _up);
     }
 

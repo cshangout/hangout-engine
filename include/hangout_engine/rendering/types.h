@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace HE {
     class Texture;
@@ -64,5 +65,10 @@ namespace HE {
         Int3,
         Int4,
         Bool
+    };
+
+    struct SceneData {
+        glm::mat4 ProjectionMatrix { 1.f };
+        glm::mat4 ViewMatrix { 1.f };
     };
 }

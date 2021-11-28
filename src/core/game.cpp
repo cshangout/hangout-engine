@@ -1,9 +1,10 @@
-#include <hangout_engine/platform/game.h>
+#include <hangout_engine/core/game.h>
 #include <hangout_engine/service_locator.h>
 #include <rendering/opengl/open_gl_renderer.h>
 #include <chrono>
 
-#include "sdl_window.h"
+#include <platform/sdl_window.h>
+
 namespace HE {
     Game* Game::_instance = nullptr;
 
@@ -52,7 +53,7 @@ namespace HE {
             _instance->PhysicsUpdate(deltaTime);
             _instance->Update(deltaTime);
 
-            _instance->Render();
+            _instance->render();
 
             _instance->_lastFrame = SDL_GetPerformanceCounter();
 
@@ -79,4 +80,8 @@ namespace HE {
     }
 
     void Game::shutdownServices() {}
+
+    void Game::render() {
+        _scene.Render();
+    }
 }

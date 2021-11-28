@@ -24,12 +24,7 @@ namespace HE {
         RendererAPI* GetRendererAPI() override;
 
     private:
-        struct SceneData {
-            glm::mat4 ProjectionMatrix { 1.f };
-            glm::mat4 ViewMatrix { 1.f };
-        };
 
-        SceneData _sceneData {};
         std::unique_ptr<OpenGLRendererAPI> _rendererAPI = nullptr;
     };
 }

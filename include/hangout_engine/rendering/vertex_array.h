@@ -2,11 +2,14 @@
 
 #include "buffer.h"
 #include <memory>
+#include <iostream>
 
 namespace HE {
     class VertexArray {
     public:
-        virtual ~VertexArray() = default;
+        virtual ~VertexArray() {
+                std::cout << "Destroyed." << std::endl;
+        };
 
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;

@@ -9,7 +9,7 @@
 #include <hangout_engine/service_locator.h>
 
 // Keep headers
-#include <hangout_engine/platform/game.h>
+#include <hangout_engine/core/game.h>
 
 int main(int argc, char **argv) {
     // Create the game

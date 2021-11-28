@@ -20,4 +20,14 @@ namespace HE {
     void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vao) {
         glDrawElements(GL_TRIANGLES, vao->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, 0);
     }
+
+    void OpenGLRendererAPI::DrawMesh(const MeshComponent &mesh, const TransformComponent &transform) {
+        auto shader_ptr = mesh.GetShader().lock();
+        auto mesh_ptr = mesh.GetVertexArray().lock();
+        if (shader_ptr && mesh_ptr) {
+            shader_ptr->UniformMat4("u_model", transform.GetTransform());
+            mesh_ptr->Bind();
+            DrawIndexed(mesh_ptr);
+        }
+    }
 }

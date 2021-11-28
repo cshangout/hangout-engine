@@ -39,8 +39,9 @@ namespace HE {
         void Translate(MoveDirection direction, float amount);
         void RotateBy(float xAmount, float yAmount, bool constrainPitch = true);
 
+
         [[nodiscard]] glm::mat4 GetProjectionMatrix() const;
-        [[nodiscard]] const glm::mat4& GetViewMatrix() const;
+        [[nodiscard]] const glm::mat4 GetViewMatrix() const;
 
     private:
         void recalculateCameraVectors();

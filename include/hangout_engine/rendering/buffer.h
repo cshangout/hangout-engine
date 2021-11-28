@@ -36,6 +36,7 @@ namespace HE {
                 return 1;
         }
         assert(false && "Invalid ShaderDataType requested");
+        return 0;
     }
 
     struct BufferElement {
