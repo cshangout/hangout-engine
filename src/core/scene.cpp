@@ -4,6 +4,7 @@
 #include <hangout_engine/core/components/transform_component.h>
 #include <hangout_engine/core/components/mesh_component.h>
 #include <hangout_engine/rendering/render_command.h>
+#include <hangout_engine/core/components/camera_component.h>
 
 namespace HE {
     Scene::Scene() {}
@@ -23,20 +24,27 @@ namespace HE {
 
     void Scene::Render() {
         // TODO: Get active camera
-        Camera camera {};
-
         RenderCommand::SetClearColor({0.1f, 0.2f, 0.3f, 1.0f});
         RenderCommand::Clear();
 
-        ServiceLocator::GetRenderer()->BeginScene(camera);
+        auto cameraGroup = _registry.group<CameraComponent>(entt::get<TransformComponent>);
 
-        _sceneData.ProjectionMatrix = camera.GetProjectionMatrix();
-        _sceneData.ViewMatrix = camera.GetViewMatrix();
+        for (auto entity : cameraGroup) {
+            auto [transform, camera] = cameraGroup.get<TransformComponent, CameraComponent>(entity);
 
-        // Draw the scene -- Transform and mesh are minimum needed for drawing
-        auto group = _registry.group<TransformComponent>(entt::get<MeshComponent>);
+            if (camera.IsActive()) {
+                _sceneData.ProjectionMatrix = camera.GetProjectionMatrix();
+                _sceneData.ViewMatrix = glm::inverse(transform.GetTransform());
+                break;
+            }
+        }
+
+        ServiceLocator::GetRenderer()->BeginScene();
+
+        // Draw the objects
 
         uint32_t lastShaderHandle = 0;
+        auto group = _registry.group<TransformComponent>(entt::get<MeshComponent>);
 
         for (auto entity : group) {
             auto [transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);

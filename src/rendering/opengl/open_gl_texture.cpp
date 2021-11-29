@@ -10,6 +10,7 @@ namespace HE {
     OpenGLTexture::~OpenGLTexture() {
         if (_handle) {
             glDeleteTextures(1, &_handle);
+            std::cout << "Texture being destroyed." << std::endl;
         }
     }
 

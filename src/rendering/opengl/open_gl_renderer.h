@@ -9,7 +9,7 @@ namespace HE {
         void Init(RendererSettings settings) override;
         void Shutdown() override;
 
-        void BeginScene(Camera& camera) override;
+        void BeginScene() override;
         void Submit(const std::shared_ptr<Shader>&, const std::shared_ptr<VertexArray>&) override;
         void EndScene() override;
 

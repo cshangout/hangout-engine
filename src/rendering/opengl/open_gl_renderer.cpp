@@ -38,7 +38,7 @@ namespace HE {
 
     }
 
-    void OpenGLRenderer::BeginScene(Camera& camera) {
+    void OpenGLRenderer::BeginScene() {
     }
 
     void OpenGLRenderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray) {

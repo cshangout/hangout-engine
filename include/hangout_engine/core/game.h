@@ -18,7 +18,7 @@ namespace HE {
     protected:
         virtual void Init() {};
         virtual void PhysicsUpdate(float deltaTime) {};
-        virtual void Update(float deltaTime) {};
+        virtual void Update(double deltaTime) {};
 
     private:
         void initializeServices();

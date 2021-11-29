@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "buffer.h"
-#include "camera.h"
 #include "shader.h"
 #include "vertex_array.h"
 #include "renderer_api.h"
@@ -21,7 +20,7 @@ namespace HE {
         virtual void Shutdown() = 0;
 
         // TODO: Scene settings. Camera, lights, environment
-        virtual void BeginScene(Camera& camera) = 0;
+        virtual void BeginScene() = 0;
         virtual void Submit(const std::shared_ptr<Shader>&, const std::shared_ptr<VertexArray>&) = 0;
         virtual void EndScene() = 0;
 

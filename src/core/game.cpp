@@ -37,8 +37,8 @@ namespace HE {
         if (_instance != nullptr) {
             auto start = SDL_GetPerformanceCounter();
 
-            auto deltaTime = static_cast<float>(start - _instance->_lastFrame) /
-                    static_cast<float>(SDL_GetPerformanceFrequency());
+            auto deltaTime = static_cast<double>(start - _instance->_lastFrame) /
+                    static_cast<double>(SDL_GetPerformanceFrequency());
 
             // If the X button was clicked, exit
             if (ServiceLocator::GetWindow()->Update()) {
@@ -57,9 +57,10 @@ namespace HE {
 
             _instance->_lastFrame = SDL_GetPerformanceCounter();
 
-            float elapsed = static_cast<float>(_instance->_lastFrame - start) /
-                    static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0f;
-            auto delayTime = std::clamp((1000.f / _instance->_desiredFPS) - elapsed, 0.f, 9999.f);
+            double elapsed = static_cast<double>(_instance->_lastFrame - start) /
+                    static_cast<double>(SDL_GetPerformanceFrequency()) * 1000.0f;
+
+            auto delayTime = std::clamp((1000.0 / _instance->_desiredFPS) - elapsed, 0.0, 1000.0);
             SDL_Delay(std::floor(delayTime));
         }
     }
