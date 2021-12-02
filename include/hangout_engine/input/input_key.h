@@ -42,6 +42,8 @@ namespace HE {
         CONTROLLER_AXIS_TRIGGERRIGHT,
         CONTROLLER_AXIS_MAX,
 
+        MOUSE_X,
+        MOUSE_Y,
         MOUSE_MOVE_X,
         MOUSE_MOVE_Y,
         MOUSE_RIGHT,
@@ -73,6 +75,8 @@ namespace HE {
             case InputKey::KEY_S:
             case InputKey::KEY_W:
                 return InputSource::Keyboard;
+            case InputKey::MOUSE_X:
+            case InputKey::MOUSE_Y:
             case InputKey::MOUSE_MOVE_X:
             case InputKey::MOUSE_MOVE_Y:
             case InputKey::MOUSE_RIGHT:

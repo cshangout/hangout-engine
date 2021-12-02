@@ -71,4 +71,9 @@ namespace HE {
         glm::mat4 ProjectionMatrix { 1.f };
         glm::mat4 ViewMatrix { 1.f };
     };
+
+    enum class ColorType {
+        FLOAT,
+        UNSIGNED_CHAR
+    };
 }

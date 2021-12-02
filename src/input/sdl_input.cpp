@@ -42,6 +42,15 @@ namespace HE {
         _mouseState[InputKey::MOUSE_LEFT].value = static_cast<float>((buttons & SDL_BUTTON_LMASK) != 0);
         _mouseState[InputKey::MOUSE_RIGHT].value = static_cast<float>((buttons & SDL_BUTTON_RMASK) != 0);
         _mouseState[InputKey::MOUSE_MIDDLE].value = static_cast<float>((buttons & SDL_BUTTON_MMASK) != 0);
+
+        float lastX = _mouseState[InputKey::MOUSE_X].value;
+        float lastY = _mouseState[InputKey::MOUSE_Y].value;
+
+        _mouseState[InputKey::MOUSE_MOVE_X].value = static_cast<float>(x) - lastX;
+        _mouseState[InputKey::MOUSE_MOVE_Y].value = static_cast<float>(y) - lastY;
+        _mouseState[InputKey::MOUSE_X].value = static_cast<float>(x);
+        _mouseState[InputKey::MOUSE_Y].value = static_cast<float>(y);
+
     }
 
     void SDLInput::AddController(SDL_GameController *newJoystick) {

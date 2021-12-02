@@ -68,6 +68,20 @@ namespace HE {
                 return GL_RGBA;
             default:
                 assert(true && "Number of channels not supported!");
+                return 0;
+        }
+    }
+
+    static GLint ColorTypeToOpenGL(ColorType colorType) {
+        switch(colorType) {
+            case ColorType::FLOAT:
+                return GL_FLOAT;
+                break;
+            case ColorType::UNSIGNED_CHAR:
+                return GL_UNSIGNED_BYTE;
+                break;
+            default:
+                return 0;
         }
     }
 }
