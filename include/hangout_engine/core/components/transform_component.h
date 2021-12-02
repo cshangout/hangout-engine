@@ -98,10 +98,9 @@ namespace HE {
         void recalculateTransform() {
             _transform = glm::mat4{1.f};
             _transform = glm::translate(_transform, _position);
-            _transform = glm::scale(_transform, _scale);
-
             auto rotation = glm::yawPitchRoll(glm::radians(_rotation.x), glm::radians(_rotation.y), glm::radians(_rotation.z));
             _transform *= rotation;
+            _transform = glm::scale(_transform, _scale);
         }
     };
 }
