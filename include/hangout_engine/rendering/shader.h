@@ -67,6 +67,9 @@ namespace HE {
         virtual void Boolean(const std::string& name, bool value) const = 0;
         virtual void Int(const std::string& name, int value) const = 0;
         virtual void Float(const std::string& name, float value) const = 0;
+        virtual void Float2(const std::string& name, const glm::vec2& value) const = 0;
+        virtual void Float3(const std::string& name, const glm::vec3& value) const = 0;
+        virtual void Float4(const std::string& name, const glm::vec4& value) const = 0;
         virtual void UniformMat4(const std::string&, const glm::mat4&) const = 0;
 
         virtual uint32_t GetHandle() = 0;

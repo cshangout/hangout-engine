@@ -11,6 +11,7 @@ namespace HE {
         glm::vec3 position;
         glm::vec4 color {1.f, 1.f, 1.f, 1.f};
         glm::vec2 uv;
+        glm::vec3 normal {0.f, 0.f, 0.f };
     };
 
     enum class TextureBindingIndex {
@@ -67,9 +68,21 @@ namespace HE {
         Bool
     };
 
+    struct AmbientLightSettings {
+        glm::vec3 color;
+        float intensity;
+    };
+
     struct SceneData {
         glm::mat4 ProjectionMatrix { 1.f };
         glm::mat4 ViewMatrix { 1.f };
+        glm::vec3 ClearColor {0.25f, 0.25f, 0.25f};
+        AmbientLightSettings AmbientSettings {
+            .color = {1.f, 1.f, 1.f},
+            .intensity = 1.f,
+        };
+
+        glm::vec3 LightPosition;
     };
 
     enum class ColorType {

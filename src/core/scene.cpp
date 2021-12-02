@@ -5,6 +5,7 @@
 #include <hangout_engine/core/components/mesh_component.h>
 #include <hangout_engine/rendering/render_command.h>
 #include <hangout_engine/core/components/camera_component.h>
+#include "hangout_engine/core/components/light_component.h"
 
 namespace HE {
     Scene::Scene() {}
@@ -24,8 +25,16 @@ namespace HE {
 
     void Scene::Render() {
         // TODO: Get active camera
-        RenderCommand::SetClearColor({0.1f, 0.2f, 0.3f, 1.0f});
+        RenderCommand::SetClearColor(glm::vec4{_sceneData.ClearColor, 1.f});
         RenderCommand::Clear();
+
+        auto lightGroup = _registry.group<LightComponent>(entt::get<TransformComponent>);
+
+        for (auto entity : lightGroup) {
+            auto transform = lightGroup.get<TransformComponent>(entity);
+
+            _sceneData.LightPosition = transform.GetPosition();
+        }
 
         auto cameraGroup = _registry.group<CameraComponent>(entt::get<TransformComponent>);
 
@@ -42,7 +51,6 @@ namespace HE {
         ServiceLocator::GetRenderer()->BeginScene();
 
         // Draw the objects
-
         uint32_t lastShaderHandle = 0;
         auto group = _registry.group<TransformComponent>(entt::get<MeshComponent>);
 
@@ -54,6 +62,10 @@ namespace HE {
                 shader_ptr->Bind();
                 lastShaderHandle = shader_ptr->GetHandle();
             }
+
+            shader_ptr->Float3("ambientColor", _sceneData.AmbientSettings.color);
+            shader_ptr->Float("ambientIntensity", _sceneData.AmbientSettings.intensity);
+            shader_ptr->Float3("lightPosition", _sceneData.LightPosition);
 
             shader_ptr->UniformMat4("u_projection", _sceneData.ProjectionMatrix);
             shader_ptr->UniformMat4("u_view", _sceneData.ViewMatrix);

@@ -90,6 +90,24 @@ namespace HE {
         glUniform1f(location, value);
     }
 
+    void OpenGLShader::Float2(const std::string &name, const glm::vec2& value) const {
+        GLint location = getShaderLocation(name);
+
+        glUniform2fv(location, 1, glm::value_ptr(value));
+    }
+
+    void OpenGLShader::Float3(const std::string &name, const glm::vec3& value) const {
+        GLint location = getShaderLocation(name);
+
+        glUniform3fv(location, 1, glm::value_ptr(value));
+    }
+
+    void OpenGLShader::Float4(const std::string &name, const glm::vec4& value) const {
+        GLint location = getShaderLocation(name);
+
+        glUniform4fv(location, 1, glm::value_ptr(value));
+    }
+
     void OpenGLShader::UniformMat4(const std::string& name, const glm::mat4 &matrix) const {
         GLint location = getShaderLocation(name);
 
@@ -99,6 +117,8 @@ namespace HE {
     GLint OpenGLShader::getShaderLocation(const std::string &name) const {
         return glGetUniformLocation(_program, name.c_str());
     }
+
+
 
 
 }

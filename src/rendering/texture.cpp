@@ -28,7 +28,6 @@ namespace HE {
         _channels = 3;
         _colorType = ColorType::UNSIGNED_CHAR;
 
-
         _data.resize(_width * _height * _channels);
 
         for (uint32_t i = 0; i < width * height * _channels; i ++) {

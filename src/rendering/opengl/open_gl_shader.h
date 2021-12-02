@@ -12,6 +12,9 @@ namespace HE {
         void Boolean(const std::string &name, bool value) const override;
         void Int(const std::string &name, int value) const override;
         void Float(const std::string &name, float value) const override;
+        void Float2(const std::string &name, const glm::vec2& value) const override;
+        void Float3(const std::string &name, const glm::vec3& value) const override;
+        void Float4(const std::string &name, const glm::vec4& value) const override;
         void UniformMat4(const std::string& name, const glm::mat4& matrix) const override;
 
         uint32_t GetHandle() override { return _program; }

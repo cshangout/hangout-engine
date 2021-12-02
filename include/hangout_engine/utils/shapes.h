@@ -31,112 +31,136 @@ namespace HE {
             // FRONT
             {
                 .position = {0.5f, 0.5f, 0.5f},
-                .uv = { 1.f, 1.f }
+                .uv = { 1.f, 1.f },
+                .normal = { 0, 0, 1.f }
             },
             {
                 .position = {0.5f, -0.5f, 0.5f},
-                .uv = { 1.f, 0.f }
+                .uv = { 1.f, 0.f },
+                .normal = { 0, 0, 1.f }
             },
             {
                 .position = {-0.5f, -0.5f, 0.5f},
-                .uv = { 0.f, 0.f }
+                .uv = { 0.f, 0.f },
+                .normal = { 0, 0, 1.f }
             },
             {
                 .position = {-0.5f, 0.5f, 0.5f},
-                .uv = { 0.f, 1.f }
+                .uv = { 0.f, 1.f },
+                .normal = { 0, 0, 1.f }
             },
 
             // BACK
             {
                     .position = {-0.5f, 0.5f, -0.5f},
-                    .uv = { 1.f, 1.f }
+                    .uv = { 1.f, 1.f },
+                    .normal = { 0, 0, -1.f }
             },
             {
                     .position = {-0.5f, -0.5f, -0.5f},
-                    .uv = { 1.f, 0.f }
+                    .uv = { 1.f, 0.f },
+                    .normal = { 0, 0, -1.f }
             },
             {
                     .position = {0.5f, -0.5f, -0.5f},
-                    .uv = { 0.f, 0.f }
+                    .uv = { 0.f, 0.f },
+                    .normal = { 0, 0, -1.f }
             },
             {
                     .position = {0.5f, 0.5f, -0.5f},
-                    .uv = { 0.f, 1.f }
+                    .uv = { 0.f, 1.f },
+                    .normal = { 0, 0, -1.f }
             },
 
             // LEFT
             {
                     .position = {-0.5f, 0.5f, 0.5f},
-                    .uv = { 1.f, 1.f }
+                    .uv = { 1.f, 1.f },
+                    .normal = { -1.f, 0, 0.f }
             },
             {
                     .position = {-0.5f, -0.5f, 0.5f},
-                    .uv = { 1.f, 0.f }
+                    .uv = { 1.f, 0.f },
+                    .normal = { -1.f, 0, 0.f }
             },
             {
                     .position = {-0.5f, -0.5f, -0.5f},
-                    .uv = { 0.f, 0.f }
+                    .uv = { 0.f, 0.f },
+                    .normal = { -1.f, 0, 0.f }
             },
             {
                     .position = {-0.5f, 0.5f, -0.5f},
-                    .uv = { 0.f, 1.f }
+                    .uv = { 0.f, 1.f },
+                    .normal = { -1.f, 0, 0.f }
             },
 
             // RIGHT
             {
                     .position = {0.5f, 0.5f, -0.5f},
-                    .uv = { 1.f, 1.f }
+                    .uv = { 1.f, 1.f },
+                    .normal = { 1.f, 0, 0.f }
             },
             {
                     .position = {0.5f, -0.5f, -0.5f},
-                    .uv = { 1.f, 0.f }
+                    .uv = { 1.f, 0.f },
+                    .normal = { 1.f, 0, 0.f }
             },
 
             {
                     .position = {0.5f, -0.5f, 0.5f},
-                    .uv = { 0.f, 0.f }
+                    .uv = { 0.f, 0.f },
+                    .normal = { 1.f, 0, 0.f }
             },
             {
                     .position = {0.5f, 0.5f, 0.5f},
-                    .uv = { 0.f, 1.f }
+                    .uv = { 0.f, 1.f },
+                    .normal = { 1.f, 0, 0.f }
             },
 
             // TOP
             {
                     .position = {0.5f, 0.5f, -0.5f},
-                    .uv = { 1.f, 1.f }
+                    .uv = { 1.f, 1.f },
+                    .normal = { 0.f, 1.f, 0.f }
             },
             {
                     .position = {0.5f, 0.5f, 0.5f},
-                    .uv = { 1.f, 0.f }
+                    .uv = { 1.f, 0.f },
+                    .normal = { 0.f, 1.f, 0.f }
             },
 
             {
                     .position = {-0.5f, 0.5f, 0.5f},
-                    .uv = { 0.f, 0.f }
+                    .uv = { 0.f, 0.f },
+                    .normal = { 0.f, 1.f, 0.f }
             },
             {
                     .position = {-0.5f, 0.5f, -0.5f},
-                    .uv = { 0.f, 1.f }
+                    .uv = { 0.f, 1.f },
+                    .normal = { 0.f, 1.f, 0.f }
             },
 
             // BOTTOM
             {
                     .position = {0.5f, -0.5f, 0.5f},
-                    .uv = { 1.f, 1.f }
+                    .uv = { 1.f, 1.f },
+                    .normal = { 0.f, -1.f, 0.f }
             },
             {
                     .position = {0.5f, -0.5f, -0.5f},
-                    .uv = { 1.f, 0.f }
+                    .uv = { 1.f, 0.f },
+                    .normal = { 0.f, -1.f, 0.f }
             },
 
             {
                     .position = {-0.5f, -0.5f, -0.5f},
-                    .uv = { 0.f, 0.f }
+                    .uv = { 0.f, 0.f },
+                    .normal = { 0.f, -1.f, 0.f }
             },
             {
                     .position = {-0.5f, -0.5f, 0.5f},
-                    .uv = { 0.f, 1.f }
+                    .uv = { 0.f, 1.f },
+                    .normal = { 0.f, -1.f, 0.f }
             },
     };
 

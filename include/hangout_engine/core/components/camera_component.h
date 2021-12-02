@@ -6,6 +6,9 @@
 namespace HE {
     class CameraComponent {
     public:
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent &) = default;
+
         void SetIsPerspective(bool isPerspective) { _isPerspective = isPerspective; }
         [[nodiscard]] bool IsPerspective() const { return _isPerspective; }
 

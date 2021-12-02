@@ -11,7 +11,8 @@ namespace HE {
         HE::BufferLayout layout = {
                 {HE::ShaderDataType::Float3, "aPos"},
                 {HE::ShaderDataType::Float4, "aColor"},
-                {HE::ShaderDataType::Float2, "aTexCoord"}
+                {HE::ShaderDataType::Float2, "aTexCoord"},
+                {HE::ShaderDataType::Float3, "aNormal"},
         };
 
         vertexBuffer->SetLayout(layout);
