@@ -44,6 +44,7 @@ namespace HE {
             if (camera.IsActive()) {
                 _sceneData.ProjectionMatrix = camera.GetProjectionMatrix();
                 _sceneData.ViewMatrix = glm::inverse(transform.GetTransform());
+                _sceneData.CameraPosition = transform.GetPosition();
                 break;
             }
         }
@@ -66,6 +67,7 @@ namespace HE {
             shader_ptr->Float3("ambientColor", _sceneData.AmbientSettings.color);
             shader_ptr->Float("ambientIntensity", _sceneData.AmbientSettings.intensity);
             shader_ptr->Float3("lightPosition", _sceneData.LightPosition);
+            shader_ptr->Float3("cameraPosition", _sceneData.CameraPosition);
 
             shader_ptr->UniformMat4("u_projection", _sceneData.ProjectionMatrix);
             shader_ptr->UniformMat4("u_view", _sceneData.ViewMatrix);

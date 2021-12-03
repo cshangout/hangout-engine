@@ -26,6 +26,8 @@ namespace HE {
         auto mesh_ptr = mesh.GetVertexArray().lock();
         if (shader_ptr && mesh_ptr) {
             shader_ptr->UniformMat4("u_model", transform.GetTransform());
+            shader_ptr->UniformMat4("u_inverseNormal", glm::inverse(transform.GetTransform()));
+
             mesh_ptr->Bind();
             DrawIndexed(mesh_ptr);
         }

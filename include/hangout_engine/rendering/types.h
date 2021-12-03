@@ -77,12 +77,13 @@ namespace HE {
         glm::mat4 ProjectionMatrix { 1.f };
         glm::mat4 ViewMatrix { 1.f };
         glm::vec3 ClearColor {0.25f, 0.25f, 0.25f};
+        glm::vec3 CameraPosition {0.f, 0.f, 0.f};
         AmbientLightSettings AmbientSettings {
             .color = {1.f, 1.f, 1.f},
             .intensity = 1.f,
         };
 
-        glm::vec3 LightPosition;
+        glm::vec3 LightPosition {0.f, 0.f, 0.f};
     };
 
     enum class ColorType {

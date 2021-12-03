@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 # Outputs builds to the /dist directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/${CMAKE_SYSTEM_NAME})
 
+#if (${CMAKE_BUILD_TYPE} MATCHES "Debug" OR DEFINED ${NO_OPTIMIZATIONS})
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+#endif()
+
 add_subdirectory(external/SDL)
 add_subdirectory(external/glm)
 add_subdirectory(external/glad)
