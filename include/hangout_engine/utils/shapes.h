@@ -1,8 +1,28 @@
 #pragma once
 #include <vector>
+#include <glm/glm.hpp>
 #include <hangout_engine/rendering/types.h>
 
 namespace HE {
+
+    inline glm::vec3 getNormal(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, bool print = false) {
+        glm::vec3 U = p2 - p1;
+        glm::vec3 V = p3 - p1;
+
+        auto normal = glm::cross(U, V);
+//        glm::vec3 normal {
+//            (U.y * V.z) - (U.z * V.y),
+//            (U.z * V.x) - (U.x * V.z),
+//            (U.x * V.y) - (U.y * V.x)
+//        };
+
+        if (print) {
+            std::cout << "Normal: (" << normal.x << "," << normal.y << "," << normal.z << ")" << std::endl;
+        }
+
+        return normal;
+    }
+
     constexpr int cubeNumIndices = 36;
     constexpr int cubeNumVertices = 24;
 
@@ -187,86 +207,86 @@ namespace HE {
             {
                     .position = {-0.5f, 0.f, 0.5f},
                     .uv = {0.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, 1.f}
             },
             {
                     .position = {0.f, 1.f, 0.f},
                     .uv = {0.5f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, 1.f}
             },
             {
                     .position = {0.5f, 0.f, 0.5f},
                     .uv = {1.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, 1.f}
             },
             // RIGHT TRI
             {
                     .position = {0.5f, 0.f, 0.5f},
                     .uv = {0.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {1.f, 0.5f, 0.f}
             },
             {
                     .position = {0.f, 1.f, 0.f},
                     .uv = {0.5f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {1.f, 0.5f, 0.f}
             },
             {
                     .position = {0.5f, 0.f, -0.5f},
                     .uv = {1.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {1.f, 0.5f, 0.f}
             },
             //BACK TRI
             {
                     .position = {0.5f, 0.f, -0.5f},
                     .uv = {0.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, -1.f}
             },
             {
                     .position = {0.f, 1.f, 0.f},
                     .uv = {0.5f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, -1.f}
             },
             {
                     .position = {-0.5f, 0.f, -0.5f},
                     .uv = {1.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, 0.5, -1.f}
             },
             // LEFT TRI
             {
                     .position = {-0.5f, 0.f, -0.5f},
                     .uv = {0.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {-1.f, 0.5f, 0.f}
             },
             {
                     .position = {0.f, 1.f, 0.f},
                     .uv = {0.5f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {-1.f, 0.5f, 0.f}
             },
             {
                     .position = {-0.5f, 0.f, 0.5f},
                     .uv = {1.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {-1.f, 0.5f, 0.f}
             },
             // Bottom square
             {
                     .position = {-0.5f, 0.f, -0.5f},
                     .uv = {0.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, -1.f, 0}
             },
             {
                     .position = {-0.5f, 0.f, 0.5f},
                     .uv = {0.f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, -1.f, 0}
             },
             {
                     .position = {0.5f, 0.f, -0.5f},
                     .uv = {1.f, 0.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, -1.f, 0}
             },
             {
                     .position = {0.5f, 0.f, 0.5f},
                     .uv = {1.f, 1.f},
-                    .normal = {0, 0, 1.f}
+                    .normal = {0, -1.f, 0}
             }
     };
 }
