@@ -164,4 +164,109 @@ namespace HE {
             },
     };
 
+
+    constexpr int pyramidNumIndices = 18;
+    constexpr int pyramidNumVertices = 16;
+
+    constexpr int pyramidIndices[] {
+            // Front Tri
+            0, 1, 2,
+            // Right Tri
+            3, 4, 5,
+            // Back Tri
+            6, 7, 8,
+            // Left Tri
+            9, 10, 11,
+            // Bottom quad
+            12, 13, 14,
+            13, 15, 14,
+    };
+
+    constexpr Vertex pyramidVertices[]{
+            // FRONT TRI
+            {
+                    .position = {-0.5f, 0.f, 0.5f},
+                    .uv = {0.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.f, 1.f, 0.f},
+                    .uv = {0.5f, 1.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.5f, 0.f, 0.5f},
+                    .uv = {1.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            // RIGHT TRI
+            {
+                    .position = {0.5f, 0.f, 0.5f},
+                    .uv = {0.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.f, 1.f, 0.f},
+                    .uv = {0.5f, 1.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.5f, 0.f, -0.5f},
+                    .uv = {1.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            //BACK TRI
+            {
+                    .position = {0.5f, 0.f, -0.5f},
+                    .uv = {0.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.f, 1.f, 0.f},
+                    .uv = {0.5f, 1.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {-0.5f, 0.f, -0.5f},
+                    .uv = {1.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            // LEFT TRI
+            {
+                    .position = {-0.5f, 0.f, -0.5f},
+                    .uv = {0.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.f, 1.f, 0.f},
+                    .uv = {0.5f, 1.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {-0.5f, 0.f, 0.5f},
+                    .uv = {1.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            // Bottom square
+            {
+                    .position = {-0.5f, 0.f, -0.5f},
+                    .uv = {0.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {-0.5f, 0.f, 0.5f},
+                    .uv = {0.f, 1.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.5f, 0.f, -0.5f},
+                    .uv = {1.f, 0.f},
+                    .normal = {0, 0, 1.f}
+            },
+            {
+                    .position = {0.5f, 0.f, 0.5f},
+                    .uv = {1.f, 1.f},
+                    .normal = {0, 0, 1.f}
+            }
+    };
 }
