@@ -9,7 +9,8 @@ namespace HE {
         LightComponent() = default;
         LightComponent(const LightComponent &) = default;
 
-    private:
-        char _privateValueJustToMakeItWork {0};
+        glm::vec3 AmbientColor { 0.2f, 0.2f, 0.2f };
+        glm::vec3 DiffuseColor { 0.5f, 0.5f, 0.5f };
+        glm::vec3 SpecularColor { 1.f, 1.f, 1.f };
     };
 }

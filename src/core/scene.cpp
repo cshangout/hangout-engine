@@ -25,15 +25,22 @@ namespace HE {
 
     void Scene::Render() {
         // TODO: Get active camera
+        _sceneData.Lights.clear();
+
         RenderCommand::SetClearColor(glm::vec4{_sceneData.ClearColor, 1.f});
         RenderCommand::Clear();
 
         auto lightGroup = _registry.group<LightComponent>(entt::get<TransformComponent>);
 
         for (auto entity : lightGroup) {
-            auto transform = lightGroup.get<TransformComponent>(entity);
+            auto [transform, light] = lightGroup.get<TransformComponent, LightComponent>(entity);
 
-            _sceneData.LightPosition = transform.GetPosition();
+            _sceneData.Lights.emplace_back(Light {
+                .Position = transform.GetPosition(),
+                .AmbientColor = light.AmbientColor,
+                .DiffuseColor = light.DiffuseColor,
+                .SpecularColor = light.SpecularColor,
+            });
         }
 
         auto cameraGroup = _registry.group<CameraComponent>(entt::get<TransformComponent>);
@@ -55,6 +62,7 @@ namespace HE {
         uint32_t lastShaderHandle = 0;
         auto group = _registry.group<TransformComponent>(entt::get<MeshComponent>);
 
+
         for (auto entity : group) {
             auto [transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);
 
@@ -64,9 +72,14 @@ namespace HE {
                 lastShaderHandle = shader_ptr->GetHandle();
             }
 
-            shader_ptr->Float3("ambientColor", _sceneData.AmbientSettings.color);
-            shader_ptr->Float("ambientIntensity", _sceneData.AmbientSettings.intensity);
-            shader_ptr->Float3("lightPosition", _sceneData.LightPosition);
+            if (!_sceneData.Lights.empty()) {
+                shader_ptr->Float3("light.position", _sceneData.Lights[0].Position);
+                shader_ptr->Float3("light.ambientColor", _sceneData.Lights[0].AmbientColor);
+                shader_ptr->Float3("light.diffuseColor", _sceneData.Lights[0].DiffuseColor);
+                shader_ptr->Float3("light.specularColor", _sceneData.Lights[0].SpecularColor);
+            }
+
+
             shader_ptr->Float3("cameraPosition", _sceneData.CameraPosition);
 
             shader_ptr->UniformMat4("u_projection", _sceneData.ProjectionMatrix);

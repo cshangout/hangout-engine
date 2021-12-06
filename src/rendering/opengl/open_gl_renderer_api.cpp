@@ -28,6 +28,13 @@ namespace HE {
             shader_ptr->UniformMat4("u_model", transform.GetTransform());
             shader_ptr->UniformMat4("u_inverseNormal", glm::inverse(transform.GetTransform()));
 
+            shader_ptr->Float3("material.ambient", mesh.Mat.Ambient);
+            shader_ptr->Float3("material.diffuse", mesh.Mat.Diffuse);
+            shader_ptr->Float3("material.specular", mesh.Mat.Specular);
+            shader_ptr->Float("material.shininess", mesh.Mat.Shininess);
+
+            // Material
+
             mesh_ptr->Bind();
             DrawIndexed(mesh_ptr);
         }

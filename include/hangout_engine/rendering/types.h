@@ -73,17 +73,20 @@ namespace HE {
         float intensity;
     };
 
+    struct Light {
+        glm::vec3 Position;
+        glm::vec3 AmbientColor;
+        glm::vec3 DiffuseColor;
+        glm::vec3 SpecularColor;
+    };
+
     struct SceneData {
         glm::mat4 ProjectionMatrix { 1.f };
         glm::mat4 ViewMatrix { 1.f };
         glm::vec3 ClearColor {0.25f, 0.25f, 0.25f};
         glm::vec3 CameraPosition {0.f, 0.f, 0.f};
-        AmbientLightSettings AmbientSettings {
-            .color = {1.f, 1.f, 1.f},
-            .intensity = 1.f,
-        };
 
-        glm::vec3 LightPosition {0.f, 0.f, 0.f};
+        std::vector<Light> Lights {};
     };
 
     enum class ColorType {

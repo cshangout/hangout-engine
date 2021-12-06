@@ -8,6 +8,14 @@
 #include <hangout_engine/rendering/shader.h>
 
 namespace HE {
+    struct Material {
+        glm::vec3 Ambient {1.f, 1.f, 1.f };
+        glm::vec3 Diffuse {1.f, 1.f, 1.f };
+        glm::vec3 Specular {1.f, 1.f, 1.f };
+
+        float Shininess {32.f };
+    };
+
     class MeshComponent {
     public:
         MeshComponent() = default;
@@ -20,6 +28,8 @@ namespace HE {
 
         [[nodiscard]] std::weak_ptr<Shader> GetShader() const { return _shader; }
         void SetShader(std::shared_ptr<Shader> shader);
+
+        Material Mat {};
 
     private:
         std::shared_ptr<Shader> _shader;

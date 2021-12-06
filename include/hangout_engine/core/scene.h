@@ -14,9 +14,6 @@ namespace HE {
 
         Entity *CreateEntity();
 
-        void SetAmbientLightSettings(AmbientLightSettings settings) { _sceneData.AmbientSettings = settings; }
-        AmbientLightSettings GetAmbientLightSettings() const { return _sceneData.AmbientSettings; }
-
         void SetClearColor(glm::vec3 clearColor) { _sceneData.ClearColor = clearColor; }
 
         void Update();
