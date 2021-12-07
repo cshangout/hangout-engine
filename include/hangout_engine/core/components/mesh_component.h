@@ -18,10 +18,15 @@ namespace HE {
 
     class MeshComponent {
     public:
-        MeshComponent() = default;
+        MeshComponent() = delete;
         MeshComponent(const MeshComponent &) = default;
 
-        explicit MeshComponent(std::vector<Vertex> &&vertices, std::vector<uint32_t> &&indices);
+        explicit MeshComponent(std::vector<Vertex> &&vertices, std::vector<uint32_t> &&indices, const BufferLayout&& layout = {
+                {HE::ShaderDataType::Float3, "aPos"},
+                {HE::ShaderDataType::Float4, "aColor"},
+                {HE::ShaderDataType::Float2, "aTexCoord"},
+                {HE::ShaderDataType::Float3, "aNormal"},
+        });
 
         [[nodiscard]] std::weak_ptr<VertexArray> GetVertexArray() const { return _vao; }
 

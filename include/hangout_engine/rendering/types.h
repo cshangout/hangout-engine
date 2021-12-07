@@ -35,6 +35,7 @@ namespace HE {
         Texture2,
         Normal,
         Roughness,
+        Skybox
     };
 
     struct TextureSamplerBinding {

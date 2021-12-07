@@ -29,7 +29,7 @@ namespace HE {
         virtual std::shared_ptr<Shader> CreateShader() = 0;
         virtual std::shared_ptr<VertexArray> CreateVertexArray() = 0;
 
-        virtual std::shared_ptr<Texture> CreateTexture() = 0;
+        virtual std::shared_ptr<Texture> CreateTexture(TextureType type) = 0;
 
         virtual RendererAPI* GetRendererAPI() = 0;
     };

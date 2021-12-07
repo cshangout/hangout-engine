@@ -3,6 +3,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <hangout_engine/rendering/types.h>
+#include <hangout_engine/rendering/shader.h>
 #include "entity.h"
 
 namespace HE {
@@ -20,8 +21,10 @@ namespace HE {
         void Render();
         void RemoveEntity(Entity *entity);
 
+        void BindSceneUniforms(const std::shared_ptr<Shader>& shader_ptr);
 
     private:
+        uint32_t _lastShaderHandle = 0;
         SceneData _sceneData {};
 
         entt::registry _registry{};

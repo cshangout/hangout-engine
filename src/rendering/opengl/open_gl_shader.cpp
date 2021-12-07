@@ -16,26 +16,28 @@ namespace HE {
         glUseProgram(_program);
 
         for (auto& binding : _samplers) {
-            auto location = getShaderLocation(binding.samplerName);
-            int textureUnit = static_cast<int>(binding.index);
+            auto textureUnit = static_cast<uint32_t>(binding.index);
+            Int(binding.samplerName, static_cast<int>(binding.index));
 
             // Activate the appropriate texture
             glActiveTexture(GL_TEXTURE0 + textureUnit);
             // Set the uniform texture unit location
-            Int(binding.samplerName, static_cast<int>(binding.index));
             // Bind the texture
             binding.texture->Bind();
         }
     }
 
     void OpenGLShader::Compile(const std::string& vertexCode, const std::string& fragmentCode) {
+        auto newVertex = std::string(HE_SHADER_VERSION_STRING) + "\n" + vertexCode;
+        auto newFragment = std::string(HE_SHADER_VERSION_STRING) + "\n" + fragmentCode;
+
         uint32_t vertex, fragment;
 
         int success;
         char infoLog[512];
 
         // Vertex Shader
-        const char* vShaderCode = vertexCode.c_str();
+        const char* vShaderCode = newVertex.c_str();
         vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vShaderCode, nullptr);
         glCompileShader(vertex);
@@ -46,7 +48,7 @@ namespace HE {
         }
 
         // Fragment shader
-        const char* fShaderCode = fragmentCode.c_str();
+        const char* fShaderCode = newFragment.c_str();
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fShaderCode, nullptr);
         glCompileShader(fragment);

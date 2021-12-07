@@ -74,8 +74,8 @@ namespace HE {
         return _rendererAPI.get();
     }
 
-    std::shared_ptr<Texture> OpenGLRenderer::CreateTexture() {
-        return std::make_shared<OpenGLTexture>();
+    std::shared_ptr<Texture> OpenGLRenderer::CreateTexture(TextureType type) {
+        return std::make_shared<OpenGLTexture>(type);
     }
 
 }

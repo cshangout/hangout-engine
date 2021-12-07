@@ -5,7 +5,9 @@
 #include <hangout_engine/core/components/mesh_component.h>
 #include <hangout_engine/rendering/render_command.h>
 #include <hangout_engine/core/components/camera_component.h>
-#include "hangout_engine/core/components/light_component.h"
+#include <hangout_engine/core/components/light_component.h>
+#include <hangout_engine/core/components/skybox_component.h>
+#include "../rendering/opengl/open_gl_graphics.h"
 
 namespace HE {
     Scene::Scene() {}
@@ -59,35 +61,28 @@ namespace HE {
         ServiceLocator::GetRenderer()->BeginScene();
 
         // Draw the objects
-        uint32_t lastShaderHandle = 0;
         auto group = _registry.group<TransformComponent>(entt::get<MeshComponent>);
-
-
         for (auto entity : group) {
             auto [transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);
 
             auto shader_ptr = mesh.GetShader().lock();
-            if (shader_ptr && lastShaderHandle != shader_ptr->GetHandle()) {
-                shader_ptr->Bind();
-                lastShaderHandle = shader_ptr->GetHandle();
-            }
-
-            if (!_sceneData.Lights.empty()) {
-                shader_ptr->Float3("light.position", _sceneData.Lights[0].Position);
-                shader_ptr->Float3("light.ambientColor", _sceneData.Lights[0].AmbientColor);
-                shader_ptr->Float3("light.diffuseColor", _sceneData.Lights[0].DiffuseColor);
-                shader_ptr->Float3("light.specularColor", _sceneData.Lights[0].SpecularColor);
-            }
-
-
-            shader_ptr->Float3("cameraPosition", _sceneData.CameraPosition);
-
-            shader_ptr->UniformMat4("u_projection", _sceneData.ProjectionMatrix);
-            shader_ptr->UniformMat4("u_view", _sceneData.ViewMatrix);
+            BindSceneUniforms(shader_ptr);
 
             RenderCommand::DrawMesh(mesh, transform);
         }
 
+        auto skyboxGroup = _registry.group<SkyboxComponent>(entt::get<TransformComponent>);
+
+        glDepthFunc(GL_LEQUAL);
+        for (auto entity : skyboxGroup) {
+            auto [transform, skybox] = skyboxGroup.get<TransformComponent, SkyboxComponent>(entity);
+
+            auto shader_ptr = skybox.GetShader().lock();
+            BindSceneUniforms(shader_ptr);
+
+            RenderCommand::DrawMesh(skybox, transform);
+        }
+        glDepthFunc(GL_LESS);
         ServiceLocator::GetRenderer()->EndScene();
     }
 
@@ -105,5 +100,24 @@ namespace HE {
             // this should clear the unique ptr, calling the destructor on the component -- which will remove itself from the registry.
             _entities.erase(_entities.begin() + entityIndex);
         }
+    }
+
+    void Scene::BindSceneUniforms(const std::shared_ptr<Shader>& shader_ptr) {
+//        if (shader_ptr && _lastShaderHandle != shader_ptr->GetHandle()) {
+            shader_ptr->Bind();
+            _lastShaderHandle = shader_ptr->GetHandle();
+//        }
+
+        if (!_sceneData.Lights.empty()) {
+            shader_ptr->Float3("light.position", _sceneData.Lights[0].Position);
+            shader_ptr->Float3("light.ambientColor", _sceneData.Lights[0].AmbientColor);
+            shader_ptr->Float3("light.diffuseColor", _sceneData.Lights[0].DiffuseColor);
+            shader_ptr->Float3("light.specularColor", _sceneData.Lights[0].SpecularColor);
+        }
+
+        shader_ptr->Float3("cameraPosition", _sceneData.CameraPosition);
+
+        shader_ptr->UniformMat4("u_projection", _sceneData.ProjectionMatrix);
+        shader_ptr->UniformMat4("u_view", _sceneData.ViewMatrix);
     }
 }

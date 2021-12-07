@@ -16,7 +16,8 @@ namespace HE {
 
     void OpenGLTexture::Bind() {
         if (_handle) {
-            glBindTexture(TextureTypeToOpenGL(_type), _handle);
+            auto type = TextureTypeToOpenGL(_type);
+            glBindTexture(type, _handle);
         }
     }
 
@@ -35,14 +36,14 @@ namespace HE {
         glTexParameteri(TextureTypeToOpenGL(_type), GL_TEXTURE_MAG_FILTER, TextureFilteringToOpenGL(settings.magFilter));
     }
 
-    void OpenGLTexture::UploadData(const std::shared_ptr<TextureData>& data, TextureTarget target) {
+    void OpenGLTexture::UploadData(const TextureData& data, TextureTarget target) {
         assert(
             (_type == TextureType::TWOD && target == TextureTarget::TWOD) ||
             (_type == TextureType::CUBEMAP) && target != TextureTarget::TWOD &&
             "Target not valid for texture type."
         );
 
-        auto [width, height] = data->GetSize();
+        auto [width, height] = data.GetSize();
 
         // If the texture size has changed (or is not initialized), allocate the space for it
         if (_width != width || _height != height) {
@@ -64,10 +65,10 @@ namespace HE {
                 glTexImage2D(
                         TextureTargetToOpenGL(allocateTarget),
                         0,
-                        TextureChannelNumberToOpenGL(data->GetChannels()),
+                        TextureChannelNumberToOpenGL(data.GetChannels()),
                         static_cast<GLsizei>(width), static_cast<GLsizei>(height),
                         0,
-                        TextureChannelNumberToOpenGL(data->GetChannels()),
+                        TextureChannelNumberToOpenGL(data.GetChannels()),
                         GL_UNSIGNED_BYTE,
                         nullptr
                 );
@@ -82,12 +83,16 @@ namespace HE {
           0,
           0, 0,
           static_cast<GLsizei>(width), static_cast<GLsizei>(height),
-          TextureChannelNumberToOpenGL(data->GetChannels()),
+          TextureChannelNumberToOpenGL(data.GetChannels()),
           GL_UNSIGNED_BYTE,
-          data->GetData()
+          data.GetData()
         );
 
         glGenerateMipmap(TextureTypeToOpenGL(_type));
     }
 
+    void OpenGLTexture::UploadData(const TextureData&& data, TextureTarget target) {
+        auto theData = data;
+        UploadData(theData, target);
+    }
 }

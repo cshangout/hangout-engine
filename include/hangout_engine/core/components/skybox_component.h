@@ -1,15 +1,17 @@
 #pragma once
 
+#include "mesh_component.h"
+#include <hangout_engine/rendering/texture.h>
+
 namespace HE {
 
-    class SkyboxComponent {
+    class SkyboxComponent : public MeshComponent {
     public:
-        SkyboxComponent() = default;
-        SkyboxComponent(const MeshComponent &) = default;
+        SkyboxComponent();
+        SkyboxComponent(const SkyboxComponent &) = default;
 
-        void SetTexture(std::shared_ptr<Texture> texture);
+        void SetTextureFace(TextureData& data, const TextureTarget target);
+        void SetTextureFace(TextureData&& data, const TextureTarget target);
     private:
-
-        std::shared_ptr<Shader> _shader;
     };
 }
