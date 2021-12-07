@@ -25,6 +25,36 @@ namespace HE {
         }
     }
 
+    static GLenum TextureTargetToOpenGL(TextureTarget target) {
+        switch (target) {
+            case TextureTarget::CUBEMAP_POS_X:
+                return GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+            case TextureTarget::CUBEMAP_NEG_X:
+                return GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+            case TextureTarget::CUBEMAP_POS_Y:
+                return GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+            case TextureTarget::CUBEMAP_NEG_Y:
+                return GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+            case TextureTarget::CUBEMAP_POS_Z:
+                return GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+            case TextureTarget::CUBEMAP_NEG_Z:
+                return GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+            case TextureTarget::TWOD:
+            default:
+                return GL_TEXTURE_2D;
+        }
+    }
+
+    static GLenum TextureTypeToOpenGL(TextureType type) {
+        switch (type) {
+            case TextureType::CUBEMAP:
+                return GL_TEXTURE_CUBE_MAP;
+            case TextureType::TWOD:
+            default:
+                return GL_TEXTURE_2D;
+        }
+    }
+
     static GLint TextureWrapModeToOpenGL(TextureWrapMode mode) {
         switch (mode) {
             case TextureWrapMode::Repeat:

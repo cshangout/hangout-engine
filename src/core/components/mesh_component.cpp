@@ -26,8 +26,4 @@ namespace HE {
         _vao->AddIndexBuffer(indexBuffer);
     }
 
-    void MeshComponent::SetShader(std::shared_ptr<Shader> shader) {
-        _shader = shader;
-    }
-
 }

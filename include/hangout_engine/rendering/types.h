@@ -14,6 +14,21 @@ namespace HE {
         glm::vec3 normal {0.f, 0.f, 0.f };
     };
 
+    enum class TextureTarget {
+        TWOD,
+        CUBEMAP_POS_X,
+        CUBEMAP_NEG_X,
+        CUBEMAP_POS_Y,
+        CUBEMAP_NEG_Y,
+        CUBEMAP_POS_Z,
+        CUBEMAP_NEG_Z,
+    };
+
+    enum class TextureType {
+        TWOD,
+        CUBEMAP
+    };
+
     enum class TextureBindingIndex {
         Texture0 = 0,
         Texture1,

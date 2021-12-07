@@ -7,12 +7,12 @@
 namespace HE {
     class OpenGLTexture : public Texture {
     public:
-        OpenGLTexture();
+        explicit OpenGLTexture(TextureType type = TextureType::TWOD);
         ~OpenGLTexture();
 
         void Bind() override;
         void BindSamplerSettings(const SamplerSettings& settings) override;
-        void UploadData(const std::shared_ptr<TextureData>& data) override;
+        void UploadData(const std::shared_ptr<TextureData>& data, TextureTarget target) override;
 
     private:
         uint32_t _handle;

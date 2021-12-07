@@ -52,5 +52,7 @@ namespace HE {
         return _channels;
     }
 
-
+    std::pair<uint32_t, uint32_t> Texture::GetSize() const {
+        return {_width, _height};
+    }
 }

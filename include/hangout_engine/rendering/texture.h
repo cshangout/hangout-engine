@@ -30,10 +30,19 @@ namespace HE {
 
     class Texture {
     public:
+        explicit Texture(TextureType type = TextureType::TWOD) : _type(type) {};
         ~Texture() = default;
 
         virtual void Bind() = 0;
         virtual void BindSamplerSettings(const SamplerSettings& settings) = 0;
-        virtual void UploadData(const std::shared_ptr<TextureData>& data) = 0;
+        virtual void UploadData(const std::shared_ptr<TextureData>& data, TextureTarget target) = 0;
+
+        [[nodiscard]] std::pair<uint32_t, uint32_t> GetSize() const;
+
+        [[nodiscard]] TextureType GetType() const { return _type; }
+    protected:
+        TextureType _type;
+        int _width { 0 };
+        int _height { 0 };
     };
 }
