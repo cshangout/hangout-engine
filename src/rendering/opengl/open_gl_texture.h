@@ -14,6 +14,7 @@ namespace HE {
         void BindSamplerSettings(const SamplerSettings& settings) override;
         void UploadData(const TextureData& data, TextureTarget target) override;
         void UploadData(const TextureData&& data, TextureTarget target) override;
+        uint32_t GetHandle() const override { return _handle; }
 
     private:
         uint32_t _handle;

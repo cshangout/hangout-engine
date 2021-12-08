@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <hangout_engine/rendering/types.h>
 #include <hangout_engine/rendering/shader.h>
+#include <hangout_engine/rendering/texture.h>
 #include "entity.h"
 
 namespace HE {
@@ -21,7 +22,14 @@ namespace HE {
         void Render();
         void RemoveEntity(Entity *entity);
 
-        void BindSceneUniforms(const std::shared_ptr<Shader>& shader_ptr);
+        void EnableSkybox();
+        void DisableSkybox();
+        void SetSkyboxTextureFace(TextureData& data, TextureTarget target);
+        void SetSkyboxTextureFace(TextureData&& data, TextureTarget target);
+
+    private:
+        void bindSceneUniforms(const std::shared_ptr<Shader>& shader_ptr);
+
 
     private:
         uint32_t _lastShaderHandle = 0;
@@ -29,5 +37,6 @@ namespace HE {
 
         entt::registry _registry{};
         std::vector<std::unique_ptr<Entity>> _entities;
+        Entity* skybox = nullptr;
     };
 }

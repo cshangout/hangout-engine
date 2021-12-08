@@ -57,6 +57,9 @@ namespace HE {
         }
 
         virtual const std::vector<TextureSamplerBinding>& GetTextureSamplers() { return _samplers; }
+        virtual void SetTextureSamplers(std::vector<TextureSamplerBinding>&& samplers) {
+            _samplers = samplers;
+        }
         virtual void SetTextureSamplers(std::initializer_list<TextureSamplerBinding>&& elements) {
             _samplers = elements;
         }

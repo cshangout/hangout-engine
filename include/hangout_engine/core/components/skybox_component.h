@@ -10,8 +10,8 @@ namespace HE {
         SkyboxComponent();
         SkyboxComponent(const SkyboxComponent &) = default;
 
-        void SetTextureFace(TextureData& data, const TextureTarget target);
-        void SetTextureFace(TextureData&& data, const TextureTarget target);
+        void SetTextureFace(TextureData& data, TextureTarget target);
+        void SetTextureFace(TextureData&& data, TextureTarget target);
     private:
     };
 }

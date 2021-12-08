@@ -41,6 +41,7 @@ namespace HE {
         [[nodiscard]] std::pair<uint32_t, uint32_t> GetSize() const;
 
         [[nodiscard]] TextureType GetType() const { return _type; }
+        [[nodiscard]] virtual uint32_t GetHandle() const = 0;
     protected:
         TextureType _type;
         int _width { 0 };

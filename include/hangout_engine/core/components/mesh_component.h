@@ -14,6 +14,7 @@ namespace HE {
         glm::vec3 Specular {1.f, 1.f, 1.f };
 
         float Shininess {32.f };
+        float Reflectivity { 0.f };
     };
 
     class MeshComponent {

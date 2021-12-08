@@ -34,6 +34,7 @@ namespace HE {
             shader_ptr->Float3("material.diffuse", mesh.Mat.Diffuse);
             shader_ptr->Float3("material.specular", mesh.Mat.Specular);
             shader_ptr->Float("material.shininess", mesh.Mat.Shininess);
+            shader_ptr->Float("material.reflectivity", mesh.Mat.Reflectivity);
 
             // Material
 
