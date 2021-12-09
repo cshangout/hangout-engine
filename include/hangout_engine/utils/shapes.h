@@ -2,6 +2,8 @@
 #include <array>
 #include <glm/glm.hpp>
 #include <hangout_engine/rendering/types.h>
+#include <cmath>
+#include <utility>
 
 namespace HE {
 
@@ -304,4 +306,82 @@ namespace HE {
                 .normal = {0, -1.f, 0}
             }
     };
+
+    static std::pair<std::vector<Vertex>, std::vector<uint32_t>> GenerateSphere(float radius = 1.f, uint32_t sectors = 50, uint32_t stacks = 50) {
+        std::vector<Vertex> vertices {};
+        std::vector<uint32_t> indices {};
+        uint32_t k1, k2;
+        float x, y, z, xy;                              // vertex position
+        float nx, ny, nz, lengthInv = 1.0f / radius;    // vertex normal
+        float s, t;                                     // vertex texCoord
+
+        float sectorStep = 2 * M_PI / sectors;
+        float stackStep = M_PI / stacks;
+        float sectorAngle, stackAngle;
+
+        for(uint32_t i = 0; i <= stacks; ++i)
+        {
+            stackAngle = M_PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
+            xy = radius * cosf(stackAngle);             // r * cos(u)
+            z = radius * sinf(stackAngle);              // r * sin(u)
+
+            k1 = i * (sectors + 1);     // beginning of current stack
+            k2 = k1 + sectors + 1;
+            // add (sectorCount+1) vertices per stack
+            // the first and last vertices have same position and normal, but different tex coords
+            for(uint32_t j = 0; j <= sectors; ++j, ++k1, ++k2)
+            {
+                sectorAngle = static_cast<float>(j) * sectorStep;           // starting from 0 to 2pi
+
+                // vertex position (x, y, z)
+                x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
+                y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
+
+                // normalized vertex normal (nx, ny, nz)
+                nx = x * lengthInv;
+                ny = y * lengthInv;
+                nz = z * lengthInv;
+
+                // vertex tex coord (s, t) range between [0, 1]
+                s = (float)j / static_cast<float>(sectors);
+                t = (float)i / static_cast<float>(stacks);
+
+                vertices.push_back(Vertex{
+                    .position = {x, y, z},
+                    .uv = {s, t},
+                    .normal = {nx, ny, nz},
+                });
+
+
+            }
+        }
+
+        for(uint32_t i = 0; i < stacks; ++i)
+        {
+            k1 = i * (sectors + 1);     // beginning of current stack
+            k2 = k1 + sectors + 1;      // beginning of next stack
+
+            for(uint32_t j = 0; j < sectors; ++j, ++k1, ++k2)
+            {
+                // 2 triangles per sector excluding first and last stacks
+                // k1 => k2 => k1+1
+                if(i != 0)
+                {
+                    indices.push_back(k1);
+                    indices.push_back(k1 + 1);
+                    indices.push_back(k2);
+                }
+
+                // k1+1 => k2 => k2+1
+                if(i != (stacks-1))
+                {
+                    indices.push_back(k1 + 1);
+                    indices.push_back(k2 + 1);
+                    indices.push_back(k2);
+                }
+            }
+        }
+
+        return {vertices, indices};
+    }
 }
