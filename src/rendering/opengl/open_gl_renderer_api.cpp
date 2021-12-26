@@ -30,13 +30,45 @@ namespace HE {
             shader_ptr->UniformMat4("u_model", transform.GetTransform());
             shader_ptr->UniformMat4("u_inverseNormal", glm::inverse(transform.GetTransform()));
 
-            shader_ptr->Float3("material.ambient", mesh.Mat.Ambient);
-            shader_ptr->Float3("material.diffuse", mesh.Mat.Diffuse);
-            shader_ptr->Float3("material.specular", mesh.Mat.Specular);
-            shader_ptr->Float("material.shininess", mesh.Mat.Shininess);
-            shader_ptr->Float("material.reflectivity", mesh.Mat.Reflectivity);
+            auto addedSampler = false;
+            auto samplers = shader_ptr->GetTextureSamplers();
+            auto diffuseSampler = std::find_if(samplers.begin(), samplers.end(), [](auto& sampler) {
+                return sampler.samplerName == "material.diffuse";
+            });
 
-            // Material
+            if (diffuseSampler == samplers.end() && mesh.Mat.DiffuseTexture != nullptr) {
+                std::cout << "Attaching diffuse texture to shader" << std::endl;
+                samplers.emplace_back(
+                        TextureSamplerBinding {
+                                .samplerName = "material.diffuse",
+                                .index = TextureBindingIndex::Diffuse,
+                                .texture = mesh.Mat.DiffuseTexture
+                        }
+                );
+
+                addedSampler = true;
+            }
+
+            auto specularSampler = std::find_if(samplers.begin(), samplers.end(), [](auto& sampler) {
+                return sampler.samplerName == "material.specular";
+            });
+
+            if (specularSampler == samplers.end() && mesh.Mat.SpecularTexture != nullptr) {
+                std::cout << "Attaching specular texture to shader" << std::endl;
+                samplers.emplace_back(
+                        TextureSamplerBinding {
+                                .samplerName = "material.specular",
+                                .index = TextureBindingIndex::Specular,
+                                .texture = mesh.Mat.SpecularTexture
+                        }
+                );
+
+                addedSampler = true;
+            }
+
+            if (addedSampler) shader_ptr->SetTextureSamplers(std::move(samplers));
+
+            shader_ptr->Float("material.shininess", mesh.Mat.Shininess);
 
             DrawIndexed(mesh_ptr);
         }

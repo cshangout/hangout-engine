@@ -30,8 +30,8 @@ namespace HE {
     };
 
     enum class TextureBindingIndex {
-        Texture0 = 0,
-        Texture1,
+        Diffuse = 0,
+        Specular,
         Texture2,
         Normal,
         Roughness,

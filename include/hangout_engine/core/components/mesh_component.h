@@ -6,15 +6,15 @@
 #include <hangout_engine/rendering/types.h>
 #include <hangout_engine/rendering/vertex_array.h>
 #include <hangout_engine/rendering/shader.h>
+#include <hangout_engine/rendering/texture.h>
+#include <memory>
 
 namespace HE {
     struct Material {
-        glm::vec3 Ambient {1.f, 1.f, 1.f };
-        glm::vec3 Diffuse {1.f, 1.f, 1.f };
-        glm::vec3 Specular {1.f, 1.f, 1.f };
+        std::shared_ptr<Texture> DiffuseTexture { nullptr };
+        std::shared_ptr<Texture> SpecularTexture { nullptr };
 
-        float Shininess {32.f };
-        float Reflectivity { 0.f };
+        float Shininess { 0.f };
     };
 
     class MeshComponent {
