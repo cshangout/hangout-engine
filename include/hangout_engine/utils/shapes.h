@@ -2,10 +2,12 @@
 #include <array>
 #include <glm/glm.hpp>
 #include <hangout_engine/rendering/types.h>
-#include <cmath>
 #include <utility>
+#include <numbers>
 
 namespace HE {
+
+    constexpr double PI = std::numbers::pi;
 
     inline glm::vec3 getNormal(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, bool print = false) {
         glm::vec3 U = p2 - p1;
@@ -315,13 +317,13 @@ namespace HE {
         float nx, ny, nz, lengthInv = 1.0f / radius;    // vertex normal
         float s, t;                                     // vertex texCoord
 
-        float sectorStep = 2 * M_PI / sectors;
-        float stackStep = M_PI / stacks;
+        float sectorStep = 2 * PI / sectors;
+        float stackStep = PI / stacks;
         float sectorAngle, stackAngle;
 
         for(uint32_t i = 0; i <= stacks; ++i)
         {
-            stackAngle = M_PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
+            stackAngle = PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
             xy = radius * cosf(stackAngle);             // r * cos(u)
             z = radius * sinf(stackAngle);              // r * sin(u)
 
